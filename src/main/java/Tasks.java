@@ -1,7 +1,6 @@
-package main.java;
+
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Tasks {
 	private String name; 
@@ -30,13 +29,33 @@ public class Tasks {
 		this.status = status;
 	}
 
-    static void addTask() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("What name would you like to give the task");
-        String name = sc.nextLine();
+    static void addTask(String name) {
         boolean status = false;
         Tasks newTask = new Tasks(name, status);
         taskList.add(newTask);
-        sc.close();
+    }
+
+	public static ArrayList<Tasks> getTasks() {
+		return taskList;
+	}
+
+    public static void checkTask(int index) {
+        if (index >= 0 && index < taskList.size()) {
+            taskList.get(index).setStatus(true);
+            System.out.println("Task checked");
+        } else {
+            System.out.println("Invalid task number");
+        }
+    }
+
+    public static void deleteTask(int index) {
+        if (index >= 0 && index < taskList.size()) {
+            taskList.remove(index);
+            System.out.println("Task deleted");
+        } else {
+            System.out.println("Invalid task number.");
+        }
     }
 }
+
+
