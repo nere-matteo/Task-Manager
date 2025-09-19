@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,6 +6,7 @@ public class Tasks {
 	private String name; 
 	private String description;
     private Status status;
+    private LocalDate date;
 
     enum Status {
         Todo,
@@ -30,15 +32,31 @@ public class Tasks {
         this.status = status; 
     }
 
-	public Tasks(String name, String description) {
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+	public Tasks(String name, String description, LocalDate date) {
 		this.name = name;
         this.description = description;
         this.status = Status.Todo;
+        this.date = date;
 	}
 
-    static void addTask(String name, String description) {
-        boolean status = false;
-        Tasks newTask = new Tasks(name, description);
+    static void addTask(String name, String description, LocalDate date) {
+        Tasks newTask = new Tasks(name, description, LocalDate.now());
         taskList.add(newTask);
     }
 

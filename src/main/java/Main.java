@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -22,14 +23,14 @@ public class Main {
                     String name = sc.nextLine();
                     System.out.println("Enter a description");
                     String description = sc.nextLine();
-                    Tasks.addTask(name, description);
+                    Tasks.addTask(name, description, LocalDate.now());
                     System.out.println("Task added.");
                     break;
                 case 2: 
                     System.out.println("Tasks:");
                     int i = 1;
                     for (Tasks t: Tasks.getTasks()) {
-                        System.out.println(i++ + ". " + t.getName() + " [" + t.getStatus().name() + "]");
+                        System.out.println(i++ + ". " + t.getName() + " Status: [" + t.getStatus().name() + "]" + " Description: " + t.getDescription() + ", " + t.getDate());
                     }
                     break;
                 case 3:
