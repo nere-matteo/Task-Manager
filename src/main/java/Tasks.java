@@ -1,6 +1,12 @@
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Tasks {
 	private String name; 
@@ -15,6 +21,7 @@ public class Tasks {
     }
 
     private static ArrayList<Tasks> taskList = new ArrayList<>();
+    private static final String TASKS_FILE = "tasks.json";
 
 	public String getName() {
 		return name;
@@ -54,6 +61,11 @@ public class Tasks {
         this.status = Status.Todo;
         this.date = date;
 	}
+
+    public Tasks() {
+        this.status = Status.Todo;
+        this.date = LocalDate.now();
+    }
 
     static void addTask(String name, String description, LocalDate date) {
         Tasks newTask = new Tasks(name, description, LocalDate.now());
@@ -121,6 +133,30 @@ public class Tasks {
         } else {
             System.out.println("Invalid task number");
             return -1;
+        }
+    }
+    
+    public static void saveTasksToFile() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.writeValue(new File(TASKS_FILE), taskList);
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+    
+    public static void loadTasksFromFile() {
+        try {
+            File file = new File(TASKS_FILE);
+            if (file.exists()) {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.registerModule(new JavaTimeModule());
+                taskList = mapper.readValue(file, new TypeReference<ArrayList<Tasks>>() {});
+                System.out.println("Loaded " + taskList.size() + " tasks from file.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
         }
     }
 }

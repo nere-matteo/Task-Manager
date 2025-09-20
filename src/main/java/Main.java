@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Tasks.loadTasksFromFile();
+        
         Scanner sc = new Scanner(System.in);
         boolean running = true;
 
@@ -25,6 +27,7 @@ public class Main {
                     String description = sc.nextLine();
                     Tasks.addTask(name, description, LocalDate.now());
                     System.out.println("Task added.");
+                    Tasks.saveTasksToFile(); 
                     break;
                 case 2: 
                     System.out.println("Tasks:");
@@ -37,12 +40,14 @@ public class Main {
                     int taskIndex = Tasks.selectTask(sc);
                     if (taskIndex != -1) {
                         Tasks.checkTask(taskIndex);
+                        Tasks.saveTasksToFile(); 
                     }
                     break;
                 case 4: 
                     int deleteIndex = Tasks.selectTask(sc);
                     if(deleteIndex != -1) {
                         Tasks.deleteTask(deleteIndex);
+                        Tasks.saveTasksToFile(); 
                     }
                     break;
                 case 5: 
